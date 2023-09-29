@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operaciones con Fraccionarios</title>
+</head>
+<body>
+    <h1>Operaciones con Fraccionarios</h1>
+
+    <p>Ingresa dos fraccionarios (por ejemplo, 1/2) y selecciona la operación:</p>
+
+    <input type="text" id="fraccion1" placeholder="Fraccionario 1 (ejemplo: 1/2)">
+    <input type="text" id="fraccion2" placeholder="Fraccionario 2 (ejemplo: 1/3)">
+    
+    <select id="operacion">
+        <option value="suma">Sumar (+)</option>
+        <option value="resta">Restar (-)</option>
+        <option value="multiplicacion">Multiplicar (*)</option>
+        <option value="division">Dividir (/)</option>
+    </select>
+
+    <button onclick="calcular()">Calcular</button>
+    <button onclick="simplificar()">Simplificar</button>
+
+    <p>Resultado: <span id="resultado"></span></p>
+
+    <script>
+        function calcular() {
+            // Obtener los valores de los campos de entrada
+            const fraccion1 = document.getElementById("fraccion1").value;
+            const fraccion2 = document.getElementById("fraccion2").value;
+            const operacion = document.getElementById("operacion").value;
+
+            // Convertir las fracciones a números
+            const [num1, den1] = fraccion1.split('/').map(Number);
+            const [num2, den2] = fraccion2.split('/').map(Number);
+
+            // Verificar que los denominadores no sean mayores a 1000/1000
+            if (den1 > 1000 || den2 > 1000) {
+                alert("Los denominadores no deben ser mayores a 1000.");
+                return;
+            }
+
+            let resultado;
+
+            // Realizar la operación seleccionada
+            switch (operacion) {
+                case "suma":
+                    resultado = `${num1 * den2 + num2 * den1}/${den1 * den2}`;
+                    break;
+                case "resta":
+                    resultado = `${num1 * den2 - num2 * den1}/${den1 * den2}`;
+                    break;
+                case "multiplicacion":
+                    resultado = `${num1 * num2}/${den1 * den2}`;
+                    break;
+                case "division":
+                    resultado = `${num1 * den2}/${den1 * num2}`;
+                    break;
+                default:
+                    resultado = "Operación no válida";
+            }
+
+            document.getElementById("resultado").textContent = resultado;
+        }
+
+        function simplificar() {
+            const resultado = document.getElementById("resultado").textContent;
+            const [num, den] = resultado.split('/').map(Number);
+            const gcd = calcularMCD(num, den);
+            const fraccionSimplificada = `${num / gcd}/${den / gcd}`;
+            document.getElementById("resultado").textContent = fraccionSimplificada;
+        }
+
+        // Función para calcular el máximo común divisor (MCD) usando el algoritmo de Euclides
+        function calcularMCD(a, b) {
+            if (b === 0) {
+                return a;
+            }
+            return calcularMCD(b, a % b);
+        }
+    </script>
+</body>
+</html>

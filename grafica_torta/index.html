@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráfico de Barras de Ventas Anuales</title>
+    <!-- Agrega la librería de Chart.js desde un CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Gráfico de Barras de Ventas Anuales</h1>
+
+    <!-- Agrega un elemento canvas donde se dibujará el gráfico -->
+    <canvas id="graficoVentas" width="400" height="200"></canvas>
+
+    <script>
+        // Datos de ventas anuales en dólares para los próximos 10 años
+        const ventasAnuales = [1500000, 2000000, 2500000];
+        const crecimientoAnual = 0.15; // 20% de crecimiento anual
+
+        // Calculamos las ventas para los próximos 7 años
+        for (let i = 3; i < 10; i++) {
+            const ventaAnterior = ventasAnuales[i - 1];
+            const ventaNueva = ventaAnterior * (1 + crecimientoAnual);
+            ventasAnuales.push(ventaNueva);
+        }
+
+        // Obtenemos el elemento canvas donde dibujaremos el gráfico
+        const ctx = document.getElementById('graficoVentas').getContext('2d');
+
+        // Creamos el gráfico de barras
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Año 1', 'Año 2', 'Año 3', 'Año 4', 'Año 5', 'Año 6', 'Año 7', 'Año 8', 'Año 9', 'Año 10'],
+                datasets: [{
+                    label: 'Ventas Anuales (Dólares)',
+                    data: ventasAnuales,
+                    backgroundColor: 'rgba(75, 192, 192, 0.7)', // Color de las barras
+                    borderColor: 'rgba(75, 192, 192, 1)', // Borde de las barras
+                    borderWidth: 1 // Ancho del borde
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true // Iniciar el eje Y desde 0
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
